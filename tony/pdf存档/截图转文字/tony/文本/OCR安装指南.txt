@@ -1,0 +1,37 @@
+# OCR软件安装指南
+
+要将图片转换为文字，您需要安装以下软件：
+
+1. Python 3.6或更高版本
+2. Tesseract OCR引擎
+3. Python库：pytesseract和Pillow
+
+## 安装步骤
+
+### 1. 安装Tesseract OCR引擎
+
+- Mac: brew install tesseract tesseract-lang
+- Ubuntu/Debian: sudo apt-get install tesseract-ocr tesseract-ocr-chi-sim
+- Windows: 从 https://github.com/UB-Mannheim/tesseract/wiki 下载安装
+
+### 2. 创建Python虚拟环境并安装必要的库
+
+```bash
+cd 交易学习/工具
+python3 -m venv venv_ocr
+source venv_ocr/bin/activate  # Windows上使用: venv_ocr\Scripts\activate
+pip install pytesseract Pillow
+```
+
+### 3. 运行图片转文字工具
+
+```bash
+# 激活虚拟环境
+source venv_ocr/bin/activate  # Windows上使用: venv_ocr\Scripts\activate
+
+# 运行图形界面版本
+python images_to_text.py
+
+# 或者运行命令行版本
+python images_to_text_cli.py ../tony/pdf存档/截图源文件/tony ../tony/pdf存档/文本 chi_sim+eng
+```

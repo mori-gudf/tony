@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟交易结果 - Tony交易心法系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header class="mb-4">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">Tony交易心法系统</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">首页</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades}">交易记录</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades/decision}">交易决策</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" th:href="@{/trades/simulate}">模拟交易</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/heart-method}">交易心法</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/about}">关于</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">模拟交易结果</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>交易信息</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>交易标的</th>
+                                    <td th:text="${simulatedTrade.symbol}">BTC/USDT</td>
+                                </tr>
+                                <tr>
+                                    <th>交易方向</th>
+                                    <td th:text="${simulatedTrade.direction.description}">做多</td>
+                                </tr>
+                                <tr>
+                                    <th>杠杆倍数</th>
+                                    <td th:text="${simulatedTrade.leverage + 'x'}">5x</td>
+                                </tr>
+                                <tr>
+                                    <th>仓位大小</th>
+                                    <td th:text="${simulatedTrade.positionSize + ' U'}">10 U</td>
+                                </tr>
+                                <tr>
+                                    <th>入场价格</th>
+                                    <td th:text="${simulatedTrade.entryPrice}">50000</td>
+                                </tr>
+                                <tr>
+                                    <th>当前价格</th>
+                                    <td th:text="${simulatedTrade.currentPrice}">52000</td>
+                                </tr>
+                                <tr>
+                                    <th>止损价格</th>
+                                    <td th:text="${simulatedTrade.stopLoss}">48000</td>
+                                </tr>
+                                <tr>
+                                    <th>止盈价格</th>
+                                    <td th:text="${simulatedTrade.takeProfit}">55000</td>
+                                </tr>
+                                <tr>
+                                    <th>模拟时间</th>
+                                    <td th:text="${#temporals.format(simulatedTrade.simulationTime, 'yyyy-MM-dd HH:mm:ss')}">2025-09-13 13:00:00</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>模拟结果</h5>
+                            <div class="alert" th:classappend="${simulatedTrade.calculateSimulatedPnl() > 0 ? 'alert-success' : 'alert-danger'}">
+                                <h4 class="alert-heading" th:text="${simulatedTrade.calculateSimulatedPnl() > 0 ? '盈利' : '亏损'}">盈利</h4>
+                                <p class="mb-0">
+                                    <strong>盈亏金额:</strong> 
+                                    <span th:text="${#numbers.formatDecimal(simulatedTrade.calculateSimulatedPnl(), 1, 2) + ' U'}" 
+                                          th:classappend="${simulatedTrade.calculateSimulatedPnl() > 0 ? 'text-success' : 'text-danger'}">
+                                        +20.00 U
+                                    </span>
+                                </p>
+                                <p class="mb-0">
+                                    <strong>盈亏百分比:</strong> 
+                                    <span th:text="${#numbers.formatDecimal(simulatedTrade.calculateSimulatedPnlPercentage(), 1, 2) + '%'}"
+                                          th:classappend="${simulatedTrade.calculateSimulatedPnlPercentage() > 0 ? 'text-success' : 'text-danger'}">
+                                        +20.00%
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <h5>风险回报分析</h5>
+                                <p class="mb-0"><strong>风险回报比:</strong> <span th:text="${#numbers.formatDecimal(simulatedTrade.calculateRiskRewardRatio(), 1, 2)}">2.50</span></p>
+                                <p class="mb-0" th:if="${simulatedTrade.isStopLossTriggered()}">
+                                    <strong class="text-danger">警告: 当前价格已触发止损!</strong>
+                                </p>
+                                <p class="mb-0" th:if="${simulatedTrade.isTakeProfitTriggered()}">
+                                    <strong class="text-success">提示: 当前价格已触发止盈!</strong>
+                                </p>
+                            </div>
+                            
+                            <div class="alert alert-warning">
+                                <h5>Tony交易心法提示</h5>
+                                <ul>
+                                    <li th:if="${simulatedTrade.calculateRiskRewardRatio() < 2.0}">
+                                        <strong>风险回报比过低!</strong> Tony心法要求风险回报比至少为2:1
+                                    </li>
+                                    <li th:if="${simulatedTrade.calculateRiskRewardRatio() >= 2.0}">
+                                        <strong>风险回报比符合要求</strong> (大于2:1)
+                                    </li>
+                                    <li th:if="${simulatedTrade.positionSize * simulatedTrade.leverage > 100}">
+                                        <strong>有效仓位过大!</strong> 考虑降低杠杆或减少仓位
+                                    </li>
+                                    <li>
+                                        记得设置止损，保护资金安全
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a th:href="@{/trades/simulate}" class="btn btn-primary">继续模拟</a>
+                        <a th:href="@{/trades/create}" class="btn btn-success">创建实际交易</a>
+                        <a th:href="@{/}" class="btn btn-secondary">返回首页</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-5 py-3 text-center text-muted border-top">
+            <p>&copy; 2025 Tony交易心法系统</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平仓交易 - Tony交易心法系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header class="mb-4">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">Tony交易心法系统</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">首页</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" th:href="@{/trades}">交易记录</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades/decision}">交易决策</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades/simulate}">模拟交易</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/heart-method}">交易心法</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/about}">关于</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">平仓交易</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>交易信息</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>交易标的</th>
+                                    <td th:text="${trade.symbol}">BTC/USDT</td>
+                                </tr>
+                                <tr>
+                                    <th>交易方向</th>
+                                    <td th:text="${trade.direction.description}">做多</td>
+                                </tr>
+                                <tr>
+                                    <th>入场价格</th>
+                                    <td th:text="${trade.entryPrice}">50000</td>
+                                </tr>
+                                <tr>
+                                    <th>入场时间</th>
+                                    <td th:text="${#temporals.format(trade.entryTime, 'yyyy-MM-dd HH:mm:ss')}">2025-09-13 10:00:00</td>
+                                </tr>
+                                <tr>
+                                    <th>仓位大小</th>
+                                    <td th:text="${trade.positionSize + ' U'}">10 U</td>
+                                </tr>
+                                <tr>
+                                    <th>杠杆倍数</th>
+                                    <td th:text="${trade.leverage + 'x'}">5x</td>
+                                </tr>
+                                <tr>
+                                    <th>止损价格</th>
+                                    <td th:text="${trade.stopLoss}">48000</td>
+                                </tr>
+                                <tr>
+                                    <th>止盈价格</th>
+                                    <td th:text="${trade.takeProfit}">55000</td>
+                                </tr>
+                                <tr th:if="${trade.pnl != null}">
+                                    <th>当前盈亏</th>
+                                    <td>
+                                        <span th:text="${#numbers.formatDecimal(trade.pnl, 1, 2) + ' U (' + #numbers.formatDecimal(trade.pnlPercentage, 1, 2) + '%)'}"
+                                              th:classappend="${trade.pnl > 0 ? 'text-success' : 'text-danger'}">
+                                            +20.00 U (+20.00%)
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>平仓信息</h5>
+                            <form th:action="@{/trades/{id}/close(id=${trade.id})}" method="post" class="needs-validation" novalidate>
+                                <div class="mb-3">
+                                    <label for="exitPrice" class="form-label">出场价格</label>
+                                    <input type="number" class="form-control" id="exitPrice" name="exitPrice" step="0.000001" required>
+                                    <div class="invalid-feedback">请输入出场价格</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="lessonLearned" class="form-label">经验教训</label>
+                                    <textarea class="form-control" id="lessonLearned" name="lessonLearned" rows="4" placeholder="记录这次交易的经验教训，有助于提高交易水平"></textarea>
+                                </div>
+                                
+                                <div class="alert alert-warning">
+                                    <p><strong>注意：</strong> 平仓操作不可撤销，请确认出场价格准确无误。</p>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-danger">确认平仓</button>
+                                    <a th:href="@{/trades/{id}(id=${trade.id})}" class="btn btn-secondary">返回详情</a>
+                                </div>
+                            </form>
+                            
+                            <div class="card mt-4">
+                                <div class="card-header bg-info text-white">
+                                    <h6 class="mb-0">Tony交易心法提示</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li>记录交易经验教训，有助于提高交易水平</li>
+                                        <li>分析本次交易的优缺点，总结规律</li>
+                                        <li>不要因单次交易结果而情绪化</li>
+                                        <li>保持客观分析，持续改进交易系统</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-5 py-3 text-center text-muted border-top">
+            <p>&copy; 2025 Tony交易心法系统</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+        // 表单验证
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>

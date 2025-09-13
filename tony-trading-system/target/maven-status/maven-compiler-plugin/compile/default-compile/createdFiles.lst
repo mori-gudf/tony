@@ -1,0 +1,8 @@
+com/tony/trading/model/SimulatedTrade.class
+com/tony/trading/service/TradeService.class
+com/tony/trading/model/TradingDecision.class
+com/tony/trading/controller/HomeController.class
+com/tony/trading/model/TradeDirection.class
+com/tony/trading/repository/TradeRepository.class
+com/tony/trading/model/Trade.class
+com/tony/trading/model/TradeStatus.class

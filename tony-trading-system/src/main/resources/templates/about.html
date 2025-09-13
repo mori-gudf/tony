@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于 - Tony交易心法系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header class="mb-4">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">Tony交易心法系统</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">首页</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades}">交易记录</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades/decision}">交易决策</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades/simulate}">模拟交易</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/heart-method}">交易心法</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" th:href="@{/about}">关于</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <div class="jumbotron bg-light p-5 rounded mb-4">
+                <h1 class="display-4">关于Tony交易心法系统</h1>
+                <p class="lead">一个基于Tony交易心法的交易管理和决策支持系统</p>
+                <hr class="my-4">
+                <p>本系统旨在帮助合约交易新手践行Tony交易心法，提高交易纪律性，记录交易日志，并提供交易决策支持。</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">系统功能</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>交易记录管理：记录每笔交易的详细信息</li>
+                                <li>交易决策支持：根据Tony交易心法提供交易建议</li>
+                                <li>模拟交易计算：在不实际执行交易的情况下计算可能的交易结果</li>
+                                <li>交易心法指导：提供Tony交易心法的核心理念和实践指导</li>
+                                <li>风险管理工具：计算风险回报比、建议仓位和杠杆</li>
+                                <li>交易日志系统：记录交易思路、市场分析和心理状态</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">适用人群</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>合约交易新手：希望建立良好交易习惯的初学者</li>
+                                <li>Tony交易心法学习者：希望践行Tony交易心法的交易者</li>
+                                <li>需要交易记录管理的交易者：希望系统化记录交易的用户</li>
+                                <li>追求交易纪律性的交易者：希望提高执行力的用户</li>
+                                <li>小资金交易者：总仓位在100U以内的交易者</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">技术架构</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>后端：Java + Spring Boot</li>
+                                <li>前端：Thymeleaf + Bootstrap</li>
+                                <li>数据存储：JSON文件（后续可迁移至MySQL）</li>
+                                <li>项目构建：Maven</li>
+                            </ul>
+                            <p>本系统采用轻量级架构，易于部署和使用，无需复杂的数据库配置。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-warning">
+                            <h5 class="card-title mb-0">未来规划</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>数据库支持：迁移至MySQL数据库，提高数据安全性</li>
+                                <li>API集成：对接交易所API，获取实时行情数据</li>
+                                <li>图表分析：集成技术分析图表，提供可视化分析</li>
+                                <li>交易统计：提供更详细的交易统计和分析报告</li>
+                                <li>多用户支持：支持多用户管理，适用于交易团队</li>
+                                <li>移动端适配：优化移动设备体验，随时随地记录交易</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">风险提示</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h5>交易风险警示</h5>
+                        <p>合约交易具有高风险，可能导致本金全部亏损，甚至超过本金。本系统仅提供交易管理和决策支持，不构成投资建议。</p>
+                        <p>用户应自行承担交易风险，并根据自身风险承受能力和投资经验做出决策。</p>
+                    </div>
+                    <p>本系统基于Tony交易心法提供交易建议，但不保证交易盈利。交易者应始终保持独立思考，不应完全依赖系统建议。</p>
+                    <p>建议新手交易者：</p>
+                    <ul>
+                        <li>从小仓位开始，逐步积累经验</li>
+                        <li>严格控制风险，每笔交易风险不超过总资金的2%</li>
+                        <li>保持学习心态，不断总结经验教训</li>
+                        <li>控制情绪，避免冲动交易和追涨杀跌</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">联系与反馈</h5>
+                </div>
+                <div class="card-body">
+                    <p>如果您有任何问题、建议或反馈，请通过以下方式联系我们：</p>
+                    <ul>
+                        <li>邮箱：support@tonytrading.com</li>
+                        <li>GitHub：<a href="https://github.com/mori-gudf/tony" target="_blank">https://github.com/mori-gudf/tony</a></li>
+                    </ul>
+                    <p>我们非常重视用户反馈，将不断改进系统功能和用户体验。</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-5 py-3 text-center text-muted border-top">
+            <p>&copy; 2025 Tony交易心法系统</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

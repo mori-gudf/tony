@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交易决策结果 - Tony交易心法系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header class="mb-4">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">Tony交易心法系统</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">首页</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades}">交易记录</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" th:href="@{/trades/decision}">交易决策</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/trades/simulate}">模拟交易</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/heart-method}">交易心法</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/about}">关于</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Tony交易心法建议</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>交易参数</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>交易标的</th>
+                                    <td th:text="${tradingDecision.symbol}">BTC/USDT</td>
+                                </tr>
+                                <tr>
+                                    <th>交易方向</th>
+                                    <td th:text="${tradingDecision.direction.description}">做多</td>
+                                </tr>
+                                <tr>
+                                    <th>计划入场价格</th>
+                                    <td th:text="${tradingDecision.suggestedEntryPrice}">50000</td>
+                                </tr>
+                                <tr>
+                                    <th>计划止损价格</th>
+                                    <td th:text="${tradingDecision.suggestedStopLoss}">48000</td>
+                                </tr>
+                                <tr>
+                                    <th>计划止盈价格</th>
+                                    <td th:text="${tradingDecision.suggestedTakeProfit}">55000</td>
+                                </tr>
+                            </table>
+                            
+                            <h5 class="mt-4">Tony心法建议</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>建议杠杆倍数</th>
+                                    <td th:text="${tradingDecision.suggestedLeverage + 'x'}">3x</td>
+                                </tr>
+                                <tr>
+                                    <th>建议仓位大小</th>
+                                    <td th:text="${#numbers.formatDecimal(tradingDecision.suggestedPositionSize, 1, 2) + ' U'}">10.00 U</td>
+                                </tr>
+                                <tr>
+                                    <th>风险回报比</th>
+                                    <td th:text="${#numbers.formatDecimal(tradingDecision.riskRewardRatio, 1, 2)}">2.50</td>
+                                </tr>
+                                <tr>
+                                    <th>预期盈利</th>
+                                    <td th:text="${#numbers.formatDecimal(tradingDecision.calculateExpectedPnl(), 1, 2) + ' U'}" 
+                                        th:classappend="${tradingDecision.calculateExpectedPnl() > 0 ? 'text-success' : 'text-danger'}">
+                                        +25.00 U
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>最大风险</th>
+                                    <td th:text="${#numbers.formatDecimal(tradingDecision.calculateMaxRisk(), 1, 2) + ' U'}" class="text-danger">
+                                        -10.00 U
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title mb-0">风险评估</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p th:text="${tradingDecision.riskAssessment}">风险回报比（2.50）良好，符合Tony心法要求。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-3">
+                                <div class="card-header bg-warning">
+                                    <h5 class="card-title mb-0">趋势分析</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p th:text="${tradingDecision.trendAnalysis}">请确认当前趋势方向，只有顺应主要趋势方向交易才能提高胜率。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-3">
+                                <div class="card-header bg-secondary text-white">
+                                    <h5 class="card-title mb-0">支撑阻力分析</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p th:text="${tradingDecision.supportResistance}">识别关键支撑阻力位，在支撑位附近做多或阻力位附近做空可以提高胜率。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="alert" th:classappend="${tradingDecision.riskRewardRatio >= 2.0 ? 'alert-success' : 'alert-danger'}">
+                                <h5 class="alert-heading">交易决策</h5>
+                                <p th:if="${tradingDecision.riskRewardRatio >= 2.0}">
+                                    <strong>✅ 建议执行交易</strong> - 风险回报比符合Tony心法要求
+                                </p>
+                                <p th:unless="${tradingDecision.riskRewardRatio >= 2.0}">
+                                    <strong>❌ 不建议执行交易</strong> - 风险回报比低于Tony心法要求
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-3">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="card-title mb-0">Tony交易心法详细建议</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre class="bg-light p-3 rounded" th:text="${tradingDecision.heartMethodAdvice}">
+【Tony交易心法建议】
+
+1. 资金管理：每笔交易风险控制在总资金的2%以内
+2. 建议仓位：10.00U
+3. 建议杠杆：3.0倍
+4. 风险回报比：2.50
+
+✅ 该交易符合Tony心法的风险回报要求
+
+【执行要点】
+• 严格设置止损，永远不要移动止损位置
+• 情绪稳定，按计划执行，不要被短期波动影响
+• 记录交易日志，分析每笔交易的得失
+• 保持耐心，只交易高概率的机会
+                            </pre>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a th:href="@{/trades/create}" class="btn btn-success">创建交易</a>
+                        <a th:href="@{/trades/simulate}" class="btn btn-primary">模拟交易</a>
+                        <a th:href="@{/trades/decision}" class="btn btn-warning">重新分析</a>
+                        <a th:href="@{/}" class="btn btn-secondary">返回首页</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-5 py-3 text-center text-muted border-top">
+            <p>&copy; 2025 Tony交易心法系统</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

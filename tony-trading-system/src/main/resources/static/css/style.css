@@ -1,0 +1,158 @@
+/* Tony交易心法系统自定义样式 */
+
+/* 全局样式 */
+body {
+    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* 导航栏样式 */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* 卡片样式 */
+.card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+}
+
+/* 按钮样式 */
+.btn {
+    border-radius: 0.3rem;
+}
+
+/* 表格样式 */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+/* 盈亏显示样式 */
+.text-profit {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.text-loss {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* 表单样式 */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* 页脚样式 */
+footer {
+    background-color: #f8f9fa;
+}
+
+/* 交易心法页面样式 */
+.sticky-top {
+    top: 20px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 2rem 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+/* 交易状态标签 */
+.badge-open {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.badge-closed {
+    background-color: #6c757d;
+    color: white;
+}
+
+.badge-planned {
+    background-color: #ffc107;
+    color: black;
+}
+
+/* 风险回报比显示 */
+.risk-reward-good {
+    color: #28a745;
+}
+
+.risk-reward-medium {
+    color: #ffc107;
+}
+
+.risk-reward-bad {
+    color: #dc3545;
+}
+
+/* 交易决策页面样式 */
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* 模拟交易结果页面样式 */
+.result-card {
+    border-left: 5px solid;
+}
+
+.result-profit {
+    border-left-color: #28a745;
+}
+
+.result-loss {
+    border-left-color: #dc3545;
+}
+
+/* 动画效果 */
+.btn {
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

@@ -213,4 +213,58 @@ public class TradeServiceImpl implements TradeService {
         
         decision.setHeartMethodAdvice(advice.toString());
     }
+    
+    @Override
+    public String checkLiquidationRisk(String tradeId, double currentPrice) {
+        Trade trade = getTradeById(tradeId);
+        return trade.getLiquidationWarning(currentPrice);
+    }
+    
+    @Override
+    public String getAllLiquidationWarnings() {
+        List<Trade> openTrades = getAllOpenTrades();
+        if (openTrades.isEmpty()) {
+            return "当前没有开仓交易";
+        }
+        
+        StringBuilder warnings = new StringBuilder();
+        warnings.append("📊 所有开仓交易爆仓预警报告\n");
+        warnings.append("=".repeat(50)).append("\n\n");
+        
+        boolean hasWarnings = false;
+        
+        for (Trade trade : openTrades) {
+            // 使用入场价格作为当前价格进行演示，实际应该获取实时价格
+            double currentPrice = trade.getEntryPrice(); // 这里应该替换为实时价格
+            
+            warnings.append("交易标的: ").append(trade.getSymbol()).append("\n");
+            warnings.append("交易方向: ").append(trade.getDirection() == TradeDirection.LONG ? "做多" : "做空").append("\n");
+            warnings.append("杠杆倍数: ").append(trade.getLeverage()).append("x\n");
+            warnings.append("仓位大小: ").append(trade.getPositionSize()).append(" U\n");
+            
+            String warning = trade.getLiquidationWarning(currentPrice);
+            warnings.append(warning);
+            
+            if (trade.isNearLiquidation(currentPrice) || trade.isLiquidated(currentPrice)) {
+                hasWarnings = true;
+            }
+            
+            warnings.append("-".repeat(30)).append("\n");
+        }
+        
+        if (hasWarnings) {
+            warnings.insert(0, "🚨 发现爆仓风险！请立即检查以下交易：\n\n");
+        } else {
+            warnings.insert(0, "✅ 所有交易仓位安全\n\n");
+        }
+        
+        // 添加Tony心法提醒
+        warnings.append("\n📚 Tony心法提醒：\n");
+        warnings.append("• 持仓量不要大到使自己焦虑不安，如已这般当马上减仓\n");
+        warnings.append("• 犹豫不决时一定要平仓，至少应减仓一半\n");
+        warnings.append("• 永远不亏大钱，每次损失控制在最小\n");
+        warnings.append("• 时刻警惕周围的乐观情绪，它潜藏着巨大危险\n");
+        
+        return warnings.toString();
+    }
 }

@@ -43,6 +43,63 @@
         </header>
 
         <main>
+            <!-- 消息提示 -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${error}" style="white-space: pre-line;"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- 资金状态 -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card border-info">
+                        <div class="card-header bg-info text-white">
+                            <h6 class="mb-0">💰 当前资金状态</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <small class="text-muted">总资金:</small>
+                                    <div class="h5 text-primary" th:text="${accountBalance.totalBalance} + ' U'">100.00 U</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">可用资金:</small>
+                                    <div class="h5 text-success" th:text="${accountBalance.availableBalance} + ' U'">100.00 U</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">最大单笔仓位:</small>
+                                    <div class="h5 text-warning" th:text="${#numbers.formatDecimal(accountBalance.totalBalance * 0.3, 1, 2)} + ' U'">30.00 U</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">最大单笔风险:</small>
+                                    <div class="h5 text-danger" th:text="${#numbers.formatDecimal(accountBalance.totalBalance * 0.03, 1, 2)} + ' U'">3.00 U</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tony心法提醒 -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <h6><strong>📚 Tony心法提醒</strong></h6>
+                        <ul class="mb-0">
+                            <li>单笔交易仓位不超过总资金的30%</li>
+                            <li>单笔交易风险不超过总资金的3%</li>
+                            <li>保持67%以上的资金储备</li>
+                            <li>永远不亏大钱，以小博大</li>
+                            <li>入市前定好止损点位和资金额</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h5 class="card-title mb-0">创建新交易</h5>

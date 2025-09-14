@@ -52,6 +52,32 @@
                 </div>
             </div>
 
+            <!-- 爆仓预警 -->
+            <div th:if="${trade.status.name() == 'OPEN'}" class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">⚠️ 爆仓风险监控</h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h6><strong>📊 爆仓分析</strong></h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <small class="text-muted">爆仓价格:</small>
+                                <div class="h6 text-danger" th:text="${#numbers.formatDecimal(trade.calculateLiquidationPrice(), 1, 6)}">计算中...</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">安全距离:</small>
+                                <div class="h6" th:text="${#numbers.formatDecimal(trade.calculateDistanceToLiquidation(trade.entryPrice), 1, 2)} + '%'" 
+                                     th:classappend="${trade.calculateDistanceToLiquidation(trade.entryPrice) < 20 ? 'text-danger' : 'text-success'}">计算中...</div>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <small><strong>💡 Tony心法提醒：</strong> 持仓量不要大到使自己焦虑不安，如已这般当马上减仓！</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card mb-4">
                 <div class="card-header" th:classappend="${trade.status.name() == 'OPEN' ? 'bg-primary' : 'bg-secondary'} + ' text-white'">
                     <h5 class="card-title mb-0" th:text="${trade.symbol + ' - ' + trade.direction.description + ' - ' + trade.status.description}">BTC/USDT - 做多 - 持仓中</h5>

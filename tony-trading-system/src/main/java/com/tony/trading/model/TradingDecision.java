@@ -1,12 +1,9 @@
 package com.tony.trading.model;
 
-import lombok.Data;
-
 /**
  * 交易决策模型类
  * 基于Tony交易心法提供交易建议
  */
-@Data
 public class TradingDecision {
     private String symbol;              // 交易标的
     private TradeDirection direction;    // 建议交易方向
@@ -21,6 +18,46 @@ public class TradingDecision {
     private String supportResistance;   // 支撑阻力分析
     private String riskAssessment;      // 风险评估
     private String heartMethodAdvice;   // 心法建议
+
+    // Getters and Setters
+    public String getSymbol() { return symbol; }
+    public void setSymbol(String symbol) { this.symbol = symbol; }
+    
+    public TradeDirection getDirection() { return direction; }
+    public void setDirection(TradeDirection direction) { this.direction = direction; }
+    
+    public double getSuggestedEntryPrice() { return suggestedEntryPrice; }
+    public void setSuggestedEntryPrice(double suggestedEntryPrice) { this.suggestedEntryPrice = suggestedEntryPrice; }
+    
+    public double getSuggestedStopLoss() { return suggestedStopLoss; }
+    public void setSuggestedStopLoss(double suggestedStopLoss) { this.suggestedStopLoss = suggestedStopLoss; }
+    
+    public double getSuggestedTakeProfit() { return suggestedTakeProfit; }
+    public void setSuggestedTakeProfit(double suggestedTakeProfit) { this.suggestedTakeProfit = suggestedTakeProfit; }
+    
+    public double getSuggestedLeverage() { return suggestedLeverage; }
+    public void setSuggestedLeverage(double suggestedLeverage) { this.suggestedLeverage = suggestedLeverage; }
+    
+    public double getSuggestedPositionSize() { return suggestedPositionSize; }
+    public void setSuggestedPositionSize(double suggestedPositionSize) { this.suggestedPositionSize = suggestedPositionSize; }
+    
+    public double getRiskRewardRatio() { return riskRewardRatio; }
+    public void setRiskRewardRatio(double riskRewardRatio) { this.riskRewardRatio = riskRewardRatio; }
+    
+    public String getEntryReason() { return entryReason; }
+    public void setEntryReason(String entryReason) { this.entryReason = entryReason; }
+    
+    public String getTrendAnalysis() { return trendAnalysis; }
+    public void setTrendAnalysis(String trendAnalysis) { this.trendAnalysis = trendAnalysis; }
+    
+    public String getSupportResistance() { return supportResistance; }
+    public void setSupportResistance(String supportResistance) { this.supportResistance = supportResistance; }
+    
+    public String getRiskAssessment() { return riskAssessment; }
+    public void setRiskAssessment(String riskAssessment) { this.riskAssessment = riskAssessment; }
+    
+    public String getHeartMethodAdvice() { return heartMethodAdvice; }
+    public void setHeartMethodAdvice(String heartMethodAdvice) { this.heartMethodAdvice = heartMethodAdvice; }
     
     /**
      * 计算预期盈亏

@@ -1,13 +1,16 @@
 package com.tony.trading.controller;
 
+import com.tony.trading.model.AccountBalance;
 import com.tony.trading.model.SimulatedTrade;
 import com.tony.trading.model.Trade;
 import com.tony.trading.model.TradingDecision;
+import com.tony.trading.service.AccountService;
 import com.tony.trading.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -19,10 +22,12 @@ import java.util.List;
 public class TradeController {
 
     private final TradeService tradeService;
+    private final AccountService accountService;
 
     @Autowired
-    public TradeController(TradeService tradeService) {
+    public TradeController(TradeService tradeService, AccountService accountService) {
         this.tradeService = tradeService;
+        this.accountService = accountService;
     }
 
     /**
@@ -43,7 +48,9 @@ public class TradeController {
      */
     @GetMapping("/create")
     public String showCreateForm(Model model) {
+        AccountBalance accountBalance = accountService.getAccountBalance();
         model.addAttribute("trade", new Trade());
+        model.addAttribute("accountBalance", accountBalance);
         return "trades/create";
     }
 
@@ -51,8 +58,40 @@ public class TradeController {
      * 处理创建交易请求
      */
     @PostMapping("/create")
-    public String createTrade(@ModelAttribute Trade trade) {
-        tradeService.createTrade(trade);
+    public String createTrade(@ModelAttribute Trade trade, RedirectAttributes redirectAttributes) {
+        try {
+            // 检查资金是否足够
+            if (!accountService.hasEnoughBalance(trade.getPositionSize())) {
+                redirectAttributes.addFlashAttribute("error", 
+                    "资金不足！可用资金：" + accountService.getAccountBalance().getAvailableBalance() + " U");
+                return "redirect:/trades/create";
+            }
+            
+            // 检查Tony心法合规性
+            if (!accountService.checkTonyMethodCompliance(trade.getPositionSize())) {
+                String advice = accountService.getTonyMethodAdvice(trade.getPositionSize());
+                redirectAttributes.addFlashAttribute("error", 
+                    "违反Tony心法资金管理原则！\n" + advice);
+                return "redirect:/trades/create";
+            }
+            
+            // 开仓扣除资金
+            if (!accountService.openPosition(trade)) {
+                redirectAttributes.addFlashAttribute("error", "开仓失败，请检查资金和仓位设置");
+                return "redirect:/trades/create";
+            }
+            
+            // 创建交易
+            tradeService.createTrade(trade);
+            
+            redirectAttributes.addFlashAttribute("success", 
+                "交易创建成功！已扣除资金：" + trade.getPositionSize() + " U");
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "创建交易失败：" + e.getMessage());
+            return "redirect:/trades/create";
+        }
+        
         return "redirect:/trades";
     }
 

@@ -91,4 +91,18 @@ public interface TradeService {
      * @return 模拟交易结果
      */
     SimulatedTrade simulateTrade(SimulatedTrade simulatedTrade);
+    
+    /**
+     * 检查交易的爆仓风险
+     * @param tradeId 交易ID
+     * @param currentPrice 当前价格
+     * @return 爆仓预警信息
+     */
+    String checkLiquidationRisk(String tradeId, double currentPrice);
+    
+    /**
+     * 获取所有开仓交易的爆仓预警
+     * @return 所有交易的爆仓预警信息
+     */
+    String getAllLiquidationWarnings();
 }

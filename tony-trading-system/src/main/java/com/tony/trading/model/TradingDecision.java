@@ -1,4 +1,4 @@
-package com.tony.trading.model;
+backage com.tony.trading.model;
 
 /**
  * 交易决策模型类
